@@ -1,14 +1,20 @@
 import "./index.less"
-import React from "react";
-import { Drawer, IconButton } from '@mui/material';
+import { useContext } from "react";
+import { Drawer, IconButton, List, ListItem, ListSubheader, Divider } from '@mui/material';
 import { Box } from "@material-ui/system";
 import MenuIcon from '@mui/icons-material/Menu';
+import { readerContext } from "../reader/Reader"
+import { NavItem } from "epubjs";
 
 function Catalogue() {
-  const [isDisplay, setDisplay] = React.useState(false);
+  const context = useContext(readerContext)
+  if (!context) return null
 
-  const toggleCatalogue = () => {
-    setDisplay(!isDisplay)
+  const { isCatalogue, toggleCatalogue, catalogue, currentChapter, rendition } = context
+
+  const handleCatalogChange = (catalogueItem: NavItem) => {
+    rendition.current && rendition.current.display(catalogueItem.href)
+    toggleCatalogue()
   }
 
   return (
@@ -18,10 +24,21 @@ function Catalogue() {
       </IconButton>
       <Drawer
         anchor='left'
-        open={isDisplay}
-        onClose={() => { setDisplay(false) }}
+        open={isCatalogue}
+        onClose={() => { toggleCatalogue() }}
       >
-        111
+        <List>
+
+          {catalogue.current?.map((item, index) => {
+            return index === 0 ? <ListSubheader>{item.label}</ListSubheader> : (
+              <div>
+                <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }} onClick={() => {
+                  handleCatalogChange(item)
+                }}>{item.label}</ListItem> <Divider />
+              </div>
+            )
+          })}
+        </List>
       </Drawer>
     </Box>
 

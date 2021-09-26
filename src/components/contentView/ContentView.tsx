@@ -1,30 +1,37 @@
 import './index.less'
 import Epub from "epubjs"
-import React, { useEffect } from 'react';
+import { useEffect, useRef, useContext } from 'react';
+import { readerContext } from "../reader/Reader"
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 // TEST_URL:  https://gerhardsletten.github.io/react-reader/files/alice.epub
 
 function ContentView() {
-  const contentViewRef: any = React.createRef()
-  const url = './alice.epub'
+  const context = useContext(readerContext)
+  if (!context) return null
 
-  useEffect(() => {
-    console.log('useEffect')
+  const { rendition, atStart, atEnd } = context
 
-    const book = Epub(url);
-    book.loaded.navigation.then(({ toc }) => {
-      debugger
-      const node = contentViewRef.current
-      const rendition = book.renderTo(node, { width: '100%', height: '100%' });
+  const goPrevPage = () => {
+    rendition.current && rendition.current.prev()
+  }
 
-
-      rendition.display();
-    })
-  });
+  const goNextPage = () => {
+    console.log('next')
+    rendition.current && rendition.current.next()
+  }
 
   return (
-    <div className="content-view" ref={contentViewRef}>
-    </div>
+    <div className="content-view" >
+      <div className="content-view__pagination" onClick={goPrevPage}>
+        <ArrowBackIosIcon color={atStart ? 'disabled' : undefined}></ArrowBackIosIcon>
+      </div>
+      <div className="content-view__book" ref={context.contentViewRef}></div>
+      <div className="content-view__pagination" onClick={goNextPage}>
+        <ArrowForwardIosIcon color={atEnd ? 'disabled' : undefined} ></ArrowForwardIosIcon>
+      </div>
+    </div >
   )
 }
 
