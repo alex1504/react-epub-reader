@@ -61,6 +61,7 @@ function useEpubReader(url: string): EpubReaderState {
         setAtStart(epubRendition.location.atStart)
         setAtEnd(epubRendition.location.atEnd)
       })
+
     })
   }, [url]);
 

@@ -18,9 +18,17 @@ function ContentView() {
   }
 
   const goNextPage = () => {
-    console.log('next')
     rendition.current && rendition.current.next()
   }
+
+  const handleKeyPress = ({ key }: KeyboardEvent) => {
+    key && key === 'ArrowRight' && goNextPage()
+    key && key === 'ArrowLeft' && goPrevPage()
+  }
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyPress, false)
+  }, [])
 
   return (
     <div className="content-view" >
