@@ -15,9 +15,9 @@ function Reader(props: IReaderProps) {
 
   return (
     <readerContext.Provider value={epubReaderState}>
+      <Panel></Panel>
       <Catalogue></Catalogue>
       <ContentView></ContentView>
-      <Panel></Panel>
     </readerContext.Provider>
 
   )

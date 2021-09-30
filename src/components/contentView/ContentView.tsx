@@ -4,7 +4,6 @@ import { useEffect, useRef, useContext } from 'react';
 import { readerContext } from "../reader/Reader"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-
 // TEST_URL:  https://gerhardsletten.github.io/react-reader/files/alice.epub
 
 function ContentView() {
@@ -26,9 +25,16 @@ function ContentView() {
     key && key === 'ArrowLeft' && goPrevPage()
   }
 
+  const offListenKeyup = () => {
+    document.removeEventListener('keyup', handleKeyPress, false)
+  }
+
   useEffect(() => {
+    offListenKeyup()
     document.addEventListener('keyup', handleKeyPress, false)
-  }, [])
+
+    return offListenKeyup
+  }, [rendition.current])
 
   return (
     <div className="content-view" >

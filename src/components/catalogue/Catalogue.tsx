@@ -30,13 +30,18 @@ function Catalogue() {
         <List>
 
           {catalogue.current?.map((item, index) => {
-            return index === 0 ? <ListSubheader>{item.label}</ListSubheader> : (
-              <div>
-                <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }} onClick={() => {
+            return index === 0 ?
+              <ListSubheader sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }}
+                onClick={() => {
                   handleCatalogChange(item)
-                }}>{item.label}</ListItem> <Divider />
-              </div>
-            )
+                }}>{item.label}
+              </ListSubheader> : (
+                <div>
+                  <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }} onClick={() => {
+                    handleCatalogChange(item)
+                  }}>{item.label}</ListItem> <Divider />
+                </div>
+              )
           })}
         </List>
       </Drawer>
