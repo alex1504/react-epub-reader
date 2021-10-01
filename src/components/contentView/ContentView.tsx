@@ -10,14 +10,20 @@ function ContentView() {
   const context = useContext(readerContext)
   if (!context) return null
 
-  const { rendition, atStart, atEnd } = context
+  const { rendition, atStart, atEnd, book } = context
 
-  const goPrevPage = () => {
-    rendition.current && rendition.current.prev()
+  const goPrevPage = async () => {
+    rendition.current && await rendition.current.prev()
   }
 
-  const goNextPage = () => {
-    rendition.current && rendition.current.next()
+  const goNextPage = async () => {
+    rendition.current && await rendition.current.next()
+
+    // const currentLocation = rendition.current?.currentLocation()
+    // if (currentLocation?.index) {
+    //   const currentEfi = book.locations.cfiFromLocation(currentLocation?.index)
+    //   rendition.current?.display("epubcfi(/6/8[chapter_001]!/4/2/2[pgepubid00004]/1:0)")
+    // }
   }
 
   const handleKeyPress = ({ key }: KeyboardEvent) => {

@@ -1,5 +1,5 @@
 import "./index.less"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Toolbar, AppBar, Box, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -17,12 +17,25 @@ function Panel() {
   if (!context) return null
 
   const { isSearchDrawer, toggleSearchDrawer } = context
+  const [isPanelBar, setPanelBar] = useState(true)
+
+  const toggleFullScreen = async () => {
+    if (!document.fullscreenElement) {
+      await document.body.requestFullscreen()
+    } else {
+      await document.exitFullscreen()
+    }
+  }
+
+  const hidePanelBar = () => {
+    setPanelBar(false)
+  }
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <SearchDrawer></SearchDrawer>
 
-      <AppBar position="static">
+      <AppBar position="static" sx={{ display: isPanelBar ? 'block' : 'none' }}>
 
         <Toolbar variant="dense">
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
@@ -50,7 +63,7 @@ function Panel() {
           <IconButton size="large" aria-label="search" color="inherit" onClick={toggleSearchDrawer}>
             <SearchIcon />
           </IconButton>
-          <IconButton size="large" aria-label="fullscreen" color="inherit">
+          <IconButton size="large" aria-label="fullscreen" color="inherit" onClick={toggleFullScreen}>
             <FullscreenIcon />
           </IconButton>
           <IconButton
@@ -62,7 +75,7 @@ function Panel() {
             <MoreIcon />
           </IconButton>
 
-          <IconButton size="large" aria-label="hide" color="inherit" sx={{ transform: 'rotate(-90deg)' }}>
+          <IconButton size="large" aria-label="hide" color="inherit" sx={{ transform: 'rotate(-90deg)' }} onClick={hidePanelBar}>
             <DoubleArrowRoundedIcon />
           </IconButton>
         </Toolbar>
