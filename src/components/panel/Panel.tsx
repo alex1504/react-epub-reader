@@ -1,4 +1,5 @@
 import "./index.less"
+import { useContext } from "react";
 import { Toolbar, AppBar, Box, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -8,16 +9,30 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import FullscreenIcon from '@mui/icons-material/Fullscreen';
 import DoubleArrowRoundedIcon from '@mui/icons-material/DoubleArrowRounded';
+import { readerContext } from "../reader/Reader"
+import SearchDrawer from "../searchDrawer/index"
 
 function Panel() {
+  const context = useContext(readerContext)
+  if (!context) return null
+
+  const { isSearchDrawer, toggleSearchDrawer } = context
+
   return (
     <Box sx={{ flexGrow: 1 }}>
+      <SearchDrawer></SearchDrawer>
+
       <AppBar position="static">
+
         <Toolbar variant="dense">
           <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }}>
             <MenuIcon />
           </IconButton>
-          {'Chapter'}
+          {'React Reader'}
+
+          {isSearchDrawer}
+
+
           <Typography
             variant="h5"
             noWrap
@@ -32,7 +47,7 @@ function Panel() {
           <IconButton size="large" aria-label="bookmark-added" color="inherit">
             <BookmarkAddedIcon />
           </IconButton>
-          <IconButton size="large" aria-label="search" color="inherit">
+          <IconButton size="large" aria-label="search" color="inherit" onClick={toggleSearchDrawer}>
             <SearchIcon />
           </IconButton>
           <IconButton size="large" aria-label="fullscreen" color="inherit">

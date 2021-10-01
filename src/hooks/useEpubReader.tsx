@@ -1,5 +1,12 @@
 import { useRef, useEffect, useState } from "react"
-import Epub, { Book, NavItem, Rendition } from "epubjs"
+import Epub, { Book, EpubCFI, NavItem, Rendition } from "epubjs"
+import useSearchDrawer from "./useSearchDrawer"
+import useBookContent, { MatchSearches } from "./useBookContent"
+
+export type BookContents = Array<{
+  href: string,
+  text: string[]
+}>
 
 export type EpubReaderState = {
   url: string,
@@ -12,7 +19,12 @@ export type EpubReaderState = {
   atStart: boolean,
   atEnd: boolean,
   currentChapter: string,
-  toggleCatalogue: () => void
+  isSearchDrawer: boolean,
+  bookContents: BookContents,
+  toggleSearchDrawer: () => void,
+  toggleCatalogue: () => void,
+  setCurretChapter: (href: string) => void,
+  searchBookContents: (searchString: string) => MatchSearches
 } | null
 
 export interface ILocationChangeProps {
@@ -22,6 +34,7 @@ export interface ILocationChangeProps {
 function useEpubReader(url: string): EpubReaderState {
   if (!url) return null
 
+  const { isSearchDrawer, toggleSearchDrawer } = useSearchDrawer()
   const contentViewRef = useRef<HTMLDivElement>(null)
   const catalogue = useRef<NavItem[] | null>(null)
   const rendition = useRef<Rendition | null>(null)
@@ -37,17 +50,15 @@ function useEpubReader(url: string): EpubReaderState {
 
   const book = Epub(url);
 
+  const { bookContents, searchBookContents } = useBookContent(book)
+
   useEffect(() => {
-    console.log('useEffect')
 
     book.loaded.navigation.then(({ toc }) => {
       const node = contentViewRef.current as HTMLDivElement
       const width = window.getComputedStyle(node).getPropertyValue('width')
       const epubRendition = book.renderTo(node, { width, height: '100%' });
       const firstChapter = toc[0]
-
-      console.log(book)
-      console.log(epubRendition)
 
       setCurretChapter(firstChapter.href)
 
@@ -76,7 +87,12 @@ function useEpubReader(url: string): EpubReaderState {
     atStart,
     atEnd,
     currentChapter,
+    isSearchDrawer,
+    bookContents,
+    toggleSearchDrawer,
     toggleCatalogue,
+    setCurretChapter,
+    searchBookContents
   }
 }
 

@@ -13,10 +13,12 @@
     "@material-ui/icons": "^5.0.0-beta.5",
     "@material-ui/lab": "^5.0.0-alpha.44",
     "epubjs": "^0.3.88",
+    "html-to-text": "^8.0.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.0"
   },
   "devDependencies": {
+    "@types/html-to-text": "^8.0.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@vitejs/plugin-react": "^1.0.0",
