@@ -37,7 +37,7 @@ function useBookContent(book: Book) {
     let res: MatchSearches = []
     for (let content of bookContents) {
       for (let paragraph of content.text) {
-        if (paragraph.match(searchString) !== -1) {
+        if (paragraph.match(regexp) !== null) {
           res.push({
             paragraph,
             href: content.href

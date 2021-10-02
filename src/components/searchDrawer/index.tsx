@@ -45,6 +45,7 @@ function SearchDrawer() {
 
   const onSearchBookContents = async () => {
     const matches = searchBookContents(searchText)
+    debugger
     setMatches(matches)
   }
 
@@ -61,6 +62,7 @@ function SearchDrawer() {
       const body = win.document.documentElement.querySelector("body")
       if (body) {
         const regExp = new RegExp(`(<[\w\d]+>)?.*(${searchText}).*<\/?[\w\d]+>`, 'ig')
+        debugger
         body.innerHTML = body.innerHTML.replace(regExp, (match, sub1, sub2) => {
           return match.replace(sub2, `<mark>${sub2}</mark>`)
         })
