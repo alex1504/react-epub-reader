@@ -18,12 +18,6 @@ function ContentView() {
 
   const goNextPage = async () => {
     rendition.current && await rendition.current.next()
-
-    // const currentLocation = rendition.current?.currentLocation()
-    // if (currentLocation?.index) {
-    //   const currentEfi = book.locations.cfiFromLocation(currentLocation?.index)
-    //   rendition.current?.display("epubcfi(/6/8[chapter_001]!/4/2/2[pgepubid00004]/1:0)")
-    // }
   }
 
   const handleKeyPress = ({ key }: KeyboardEvent) => {
@@ -37,6 +31,7 @@ function ContentView() {
 
   useEffect(() => {
     offListenKeyup()
+    rendition.current?.on('keyup', handleKeyPress)
     document.addEventListener('keyup', handleKeyPress, false)
 
     return offListenKeyup

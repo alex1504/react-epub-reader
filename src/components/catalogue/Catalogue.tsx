@@ -37,7 +37,7 @@ function Catalogue() {
                 }}>{item.label}
               </ListSubheader> : (
                 <div>
-                  <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }} onClick={() => {
+                  <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal', cursor: 'pointer' }} onClick={() => {
                     handleCatalogChange(item)
                   }}>{item.label}</ListItem> <Divider />
                 </div>
