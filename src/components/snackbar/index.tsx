@@ -1,7 +1,6 @@
-import Snackbar from '@mui/material/Snackbar';
 import { useContext } from 'react';
 import { readerContext } from '../reader/Reader';
-import Slide from '@mui/material/Slide';
+import { Slide, Snackbar } from '@mui/material';
 import { TransitionProps } from '@material-ui/core/transitions';
 
 

@@ -10,7 +10,6 @@ export default function useSnackbar() {
   let timer: null | number = null
 
   const showToast = (message: string, { timeout }: ToastOptions = { timeout: 2000 }) => {
-    console.log(timeout)
     if (timer) {
       clearTimeout(timer)
       timer = null

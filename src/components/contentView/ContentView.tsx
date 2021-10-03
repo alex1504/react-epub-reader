@@ -1,6 +1,5 @@
 import './index.less'
-import Epub from "epubjs"
-import { useEffect, useRef, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { readerContext } from "../reader/Reader"
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';

@@ -13,11 +13,7 @@ import { readerContext } from "../reader/Reader"
 import SearchDrawer from "../searchDrawer/index"
 import BookmarkDrawer from "../bookmarkDrawer";
 import FormatSizeOutlinedIcon from '@mui/icons-material/FormatSizeOutlined';
-import Button from '@mui/material/Button';
-import ButtonGroup from '@mui/material/ButtonGroup';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
-import useSnackbar from "../../hooks/useSnackbar";
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileReaderInput from 'react-file-reader-input'
 import Slide from '@mui/material/Slide';
@@ -30,7 +26,7 @@ function Panel() {
     isPanelBar, setIsPanelBar,
     initialFontSize, addBookmark, removeBookmark, currentCfi, bookmarks, toggleBookmarkDrawer, showToast, setEbookUrl } = context
 
-  const appbarRef = useRef<HTMLElement>(null)
+  const appbarRef = useRef<HTMLDivElement>(null)
 
   let fontSize = initialFontSize
   const isBookmarkAdded = bookmarks.find(bookmark => bookmark.cfi === currentCfi);
