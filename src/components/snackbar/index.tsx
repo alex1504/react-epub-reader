@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { readerContext } from '../reader/Reader';
-import { Slide, Snackbar } from '@mui/material';
+import { Slide } from '@mui/material';
 import { TransitionProps } from '@material-ui/core/transitions';
-
+import { Snackbar, SnackbarOrigin } from '@mui/material';
 
 function GlobalSnackbar() {
   const context = useContext(readerContext)
@@ -14,7 +14,7 @@ function GlobalSnackbar() {
     return <Slide {...props} direction="up" />;
   }
 
-  const anchorOriginOptions = { vertical: 'up', horizontal: 'center' }
+  const anchorOriginOptions: SnackbarOrigin = { vertical: 'bottom', horizontal: 'center' }
 
   return (
     <Snackbar

@@ -18,7 +18,7 @@ export default function useSnackbar() {
 
     setMessage(message)
     setSnackbar(true)
-    timer = setTimeout(() => {
+    timer = window.setTimeout(() => {
       setSnackbar(false)
     }, timeout);
   }

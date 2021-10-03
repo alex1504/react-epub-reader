@@ -1,7 +1,6 @@
 import "./index.less"
 import { ChangeEvent, useContext, useRef, useState } from "react";
-import { Toolbar, AppBar, Box, Typography } from '@mui/material';
-import { IconButton } from '@mui/material';
+import { Toolbar, AppBar, Box, Typography, Slide, IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -16,7 +15,6 @@ import FormatSizeOutlinedIcon from '@mui/icons-material/FormatSizeOutlined';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import FileReaderInput from 'react-file-reader-input'
-import Slide from '@mui/material/Slide';
 
 function Panel() {
   const context = useContext(readerContext)

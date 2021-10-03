@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { ChangeEventHandler, KeyboardEventHandler, SyntheticEvent, useContext, useState } from 'react';
 import { Drawer, List, ListItemText, Paper, InputBase, IconButton, ListSubheader, ListItemButton } from "@mui/material"
 import SearchIcon from '@mui/icons-material/Search';
 import { readerContext } from "../reader/Reader"
@@ -8,7 +8,7 @@ function SearchDrawer() {
   const context = useContext(readerContext)
   if (!context) return null
 
-  const { rendition, bookContents, searchBookContents, setCurretChapter } = context
+  const { rendition, searchBookContents, setCurretChapter } = context
   const [searchText, setSearchText] = useState('')
   const [matchSearches, setMatches] = useState<MatchSearches>([])
 
@@ -16,11 +16,10 @@ function SearchDrawer() {
 
   const onSearchBookContents = async () => {
     const matches = searchBookContents(searchText)
-    debugger
     setMatches(matches)
   }
 
-  const onSearchTextChange = (e) => {
+  const onSearchTextChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const value = e.target.value
     setSearchText(value)
   }
@@ -33,7 +32,6 @@ function SearchDrawer() {
       const body = win.document.documentElement.querySelector("body")
       if (body) {
         const regExp = new RegExp(`(<[\w\d]+>)?.*(${searchText}).*<\/?[\w\d]+>`, 'ig')
-        debugger
         body.innerHTML = body.innerHTML.replace(regExp, (match, sub1, sub2) => {
           return match.replace(sub2, `<mark>${sub2}</mark>`)
         })
@@ -49,7 +47,7 @@ function SearchDrawer() {
     setCurretChapter(href)
   }
 
-  const handleKeyPress = (e: KeyboardEvent) => {
+  const handleKeyPress: KeyboardEventHandler<HTMLInputElement> = (e) => {
     const key = e.key
     if (key === 'Enter') {
       onSearchBookContents()
@@ -92,11 +90,11 @@ function SearchDrawer() {
             </ListSubheader>
           }
         >
-          {matchSearches.map(item => {
+          {matchSearches.map((item, index) => {
             return item ? <ListItemButton onClick={() => {
               onListItemClick(item.href, item.paragraph)
             }}>
-              <ListItemText sx={{ height: '50px' }}>
+              <ListItemText key={index} sx={{ height: '50px' }}>
                 <p dangerouslySetInnerHTML={{ __html: item && item.paragraph ? item?.paragraph.replace(new RegExp(searchText, 'ig'), '<span class="highlight">' + searchText + '</span>') : '' }}></p>
               </ListItemText>
             </ListItemButton> : null
