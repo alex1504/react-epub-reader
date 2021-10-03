@@ -1,5 +1,5 @@
 import "./index.less"
-import { useContext, useState } from "react";
+import { ChangeEvent, useContext, useRef, useState } from "react";
 import { Toolbar, AppBar, Box, Typography } from '@mui/material';
 import { IconButton } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -18,14 +18,19 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import useSnackbar from "../../hooks/useSnackbar";
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import FileReaderInput from 'react-file-reader-input'
+import Slide from '@mui/material/Slide';
 
 function Panel() {
   const context = useContext(readerContext)
   if (!context) return null
 
   const { isBookmarkDrawer: isSearchDrawer, toggleSearchDrawer, toggleCatalogue, rendition,
-    initialFontSize, addBookmark, removeBookmark, currentCfi, bookmarks, toggleBookmarkDrawer, showToast } = context
-  const [isPanelBar, setPanelBar] = useState(true)
+    isPanelBar, setIsPanelBar,
+    initialFontSize, addBookmark, removeBookmark, currentCfi, bookmarks, toggleBookmarkDrawer, showToast, setEbookUrl } = context
+
+  const appbarRef = useRef<HTMLElement>(null)
 
   let fontSize = initialFontSize
   const isBookmarkAdded = bookmarks.find(bookmark => bookmark.cfi === currentCfi);
@@ -38,8 +43,31 @@ function Panel() {
     }
   }
 
+  const resize = () => {
+    const originWidth = rendition.current?.settings.width
+    const appbarH = appbarRef.current?.clientHeight
+    if (!originWidth || !appbarH) {
+      return
+    }
+
+    if (typeof originWidth === 'number') {
+      rendition.current?.resize(originWidth, window.innerHeight - appbarH)
+    } else {
+      const nOriginWidth = originWidth.match(/\d+/)
+      if (nOriginWidth) {
+        rendition.current?.resize(Number(nOriginWidth[0]), window.innerHeight - appbarH)
+      }
+    }
+  }
+
   const hidePanelBar = () => {
-    setPanelBar(false)
+    setIsPanelBar(false)
+    resize()
+  }
+
+  const ShowPanelBar = () => {
+    setIsPanelBar(true)
+    resize()
   }
 
   const onAddBookmark = () => {
@@ -65,65 +93,93 @@ function Panel() {
     rendition.current?.themes.fontSize(fontSize)
   }
 
+  const handleBookFileChange = (events: ChangeEvent<HTMLInputElement>, results: FileReaderInput.Result[]) => {
+    if (!results.length) return
+
+    const [e, file] = results[0]
+    if (file.type !== 'application/epub+zip') {
+      return showToast("Please choose an epub file")
+    }
+
+    const result = (e.target as FileReader)?.result as string
+    setEbookUrl(result)
+
+    events.target.setAttribute('value', '')
+  }
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <SearchDrawer></SearchDrawer>
       <BookmarkDrawer></BookmarkDrawer>
 
-      <AppBar position="static" sx={{ display: isPanelBar ? 'block' : 'none' }}>
-
-        <Toolbar variant="dense">
-          <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleCatalogue}>
-            <MenuIcon />
-          </IconButton>
-          {'React Reader'}
-
-          {isSearchDrawer}
-
-
-          <Typography
-            variant="h5"
-            noWrap
-            component="div"
-            sx={{ flexGrow: 1, alignSelf: 'flex-end' }}
-          >
-          </Typography>
-
-          <IconButton size="large" aria-label="toggle-fontsize" color="inherit" onClick={toggleFontSize}>
-            <FormatSizeOutlinedIcon />
-          </IconButton>
-
-          {isBookmarkAdded ?
-            <IconButton size="large" aria-label="bookmark-added" color="inherit" onClick={onRemoveBookmark}>
-              <BookmarkAddedIcon />
-            </IconButton> :
-            <IconButton size="large" aria-label="bookmark-add" color="inherit" onClick={onAddBookmark}>
-              <BookmarkAddIcon />
+      <div className="right-fixed-box">
+        <IconButton size="large" aria-label="hide" color="inherit" sx={{ transform: 'rotate(90deg)' }} onClick={ShowPanelBar}>
+          <DoubleArrowRoundedIcon />
+        </IconButton>
+      </div>
+      <Slide direction="down" in={isPanelBar} mountOnEnter unmountOnExit>
+        <AppBar ref={appbarRef} className="appbar" position="static" sx={{ position: 'relative', zIndex: 3 }}>
+          <Toolbar variant="dense">
+            <IconButton edge="start" color="inherit" aria-label="menu" sx={{ mr: 2 }} onClick={toggleCatalogue}>
+              <MenuIcon />
             </IconButton>
-          }
-          <IconButton size="large" aria-label="bookmark-list" color="inherit" onClick={toggleBookmarkDrawer}>
-            <FormatListBulletedOutlinedIcon />
-          </IconButton>
-          <IconButton size="large" aria-label="search" color="inherit" onClick={toggleSearchDrawer}>
-            <SearchIcon />
-          </IconButton>
-          <IconButton size="large" aria-label="fullscreen" color="inherit" onClick={toggleFullScreen}>
-            <FullscreenIcon />
-          </IconButton>
-          <IconButton
-            size="large"
-            aria-label="display more actions"
-            edge="end"
-            color="inherit"
-          >
-            <MoreIcon />
-          </IconButton>
+            {'EPUB READER'}
 
-          <IconButton size="large" aria-label="hide" color="inherit" sx={{ transform: 'rotate(-90deg)' }} onClick={hidePanelBar}>
-            <DoubleArrowRoundedIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            {isSearchDrawer}
+
+            <Typography
+              variant="h5"
+              noWrap
+              component="div"
+              sx={{ flexGrow: 1, alignSelf: 'flex-end' }}
+            >
+            </Typography>
+
+            <IconButton size="large" aria-label="toggle-fontsize" color="inherit" onClick={toggleFontSize}>
+              <FormatSizeOutlinedIcon />
+            </IconButton>
+
+            {isBookmarkAdded ?
+              <IconButton size="large" aria-label="bookmark-added" color="inherit" onClick={onRemoveBookmark}>
+                <BookmarkAddedIcon />
+              </IconButton> :
+              <IconButton size="large" aria-label="bookmark-add" color="inherit" onClick={onAddBookmark}>
+                <BookmarkAddIcon />
+              </IconButton>
+            }
+            <IconButton size="large" aria-label="bookmark-list" color="inherit" onClick={toggleBookmarkDrawer}>
+              <FormatListBulletedOutlinedIcon />
+            </IconButton>
+            <IconButton size="large" aria-label="search" color="inherit" onClick={toggleSearchDrawer}>
+              <SearchIcon />
+            </IconButton>
+            <IconButton size="large" aria-label="fullscreen" color="inherit" onClick={toggleFullScreen}>
+              <FullscreenIcon />
+            </IconButton>
+
+            <FileReaderInput as="buffer" onChange={handleBookFileChange}>
+              <IconButton size="large" aria-label="file-upload" color="inherit">
+                <FileUploadIcon />
+              </IconButton>
+            </FileReaderInput>
+
+
+            <IconButton
+              size="large"
+              aria-label="display more actions"
+              edge="end"
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+
+            <IconButton size="large" aria-label="hide" color="inherit" sx={{ transform: 'rotate(-90deg)' }} onClick={hidePanelBar}>
+              <DoubleArrowRoundedIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+      </Slide>
+
     </Box>
   )
 }

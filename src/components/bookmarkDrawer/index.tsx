@@ -56,7 +56,7 @@ function BookmarkDrawer() {
         <List sx={{ width: '300px', maxWidth: 360, bgcolor: 'background.paper' }} subheader={<ListSubheader>Bookmarks</ListSubheader>}>
           {
             bookmarks.map(bookmark => (
-              <ListItemButton onClick={() => {
+              <ListItemButton key={bookmark.cfi} onClick={() => {
                 goToBookmark(bookmark.cfi)
               }}>
                 <ListItem alignItems="flex-start">

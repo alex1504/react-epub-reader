@@ -4,6 +4,14 @@
   height: calc(100vh - 48px);
   overflow-x: hidden;
 
+  &--fullscreen {
+    height: 100vh;
+  }
+
+  &--withbar {
+    height: calc(100vh - 48px);
+  }
+
   &__book {
     flex: 1;
   }
@@ -15,7 +23,7 @@
     justify-content: center;
     transition: all 0.3s;
     cursor: pointer;
-    user-select:none;
+    user-select: none;
     &:hover {
       background-color: rgba(179, 179, 179, 0.07);
     }

@@ -1,6 +1,5 @@
-import Snackbar, { SnackbarOrigin } from '@mui/material/Snackbar';
+import Snackbar from '@mui/material/Snackbar';
 import { useContext } from 'react';
-import useSnackbar from '../../hooks/useSnackbar';
 import { readerContext } from '../reader/Reader';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@material-ui/core/transitions';
@@ -16,14 +15,15 @@ function GlobalSnackbar() {
     return <Slide {...props} direction="up" />;
   }
 
+  const anchorOriginOptions = { vertical: 'up', horizontal: 'center' }
+
   return (
     <Snackbar
       TransitionComponent={transition}
-      anchorOrigin={{ vertical: 'up', horizontal: 'center' }}
+      anchorOrigin={anchorOriginOptions}
       open={isSnackbar}
       message={snackbarMessage}
     />
-
   )
 }
 

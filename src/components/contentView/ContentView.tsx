@@ -10,7 +10,7 @@ function ContentView() {
   const context = useContext(readerContext)
   if (!context) return null
 
-  const { rendition, atStart, atEnd, book } = context
+  const { rendition, atStart, atEnd, isPanelBar } = context
 
   const goPrevPage = async () => {
     rendition.current && await rendition.current.prev()
@@ -38,7 +38,7 @@ function ContentView() {
   }, [rendition.current])
 
   return (
-    <div className="content-view" >
+    <div className={isPanelBar ? "content-view content-view--withbar" : "content-view content-view--fullscreen"}>
       <div className="content-view__pagination" onClick={goPrevPage}>
         <ArrowBackIosIcon color={atStart ? 'disabled' : undefined}></ArrowBackIosIcon>
       </div>

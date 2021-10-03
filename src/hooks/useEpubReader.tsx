@@ -13,9 +13,9 @@ export type BookContents = Array<{
 }>
 
 export type EpubReaderState = {
-  url: string,
+  ebookUrl: string,
   book: Book,
-  catalogue: React.MutableRefObject<NavItem[] | null>,
+  catalogue: NavItem[] | null,
   rendition: React.MutableRefObject<Rendition | null>,
   contentViewRef: React.RefObject<HTMLDivElement>,
   isCatalogue: boolean,
@@ -31,6 +31,9 @@ export type EpubReaderState = {
   isBookmarkDrawer: boolean,
   isSnackbar: boolean,
   snackbarMessage: string,
+  isPanelBar: boolean,
+  setIsPanelBar: (flag: boolean) => void,
+  setEbookUrl: (url: string) => void,
   toggleSearchDrawer: () => void,
   toggleCatalogue: () => void,
   setCurretChapter: (href: string) => void,
@@ -45,15 +48,17 @@ export interface ILocationChangeProps {
   end: string, href: string, index: number, percentage: number, start: string
 }
 
-function useEpubReader({ url, fontSize }: IReaderProps): EpubReaderState {
+function useEpubReader({ url, fontSize, epubOptions }: IReaderProps): EpubReaderState {
   if (!url) return null
 
+  const [ebookUrl, setEbookUrl] = useState(url)
   const { isSearchDrawer, toggleSearchDrawer } = useSearchDrawer()
   const { isBookmarkDrawer, toggleBookmarkDrawer } = useBookmarkDrawer()
   const contentViewRef = useRef<HTMLDivElement>(null)
-  const catalogue = useRef<NavItem[] | null>(null)
+  const [catalogue, setCatalogue] = useState<NavItem[] | null>(null)
+  const [isCatalogue, setIsCatalogue] = useState(false);
+  const [isPanelBar, setIsPanelBar] = useState(true)
   const rendition = useRef<Rendition | null>(null)
-  const [isCatalogue, setCatalogue] = useState(false);
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
   const [percentage, setPercentage] = useState(0)
@@ -62,10 +67,10 @@ function useEpubReader({ url, fontSize }: IReaderProps): EpubReaderState {
   const { isSnackbar, snackbarMessage, showToast } = useSnackbar()
 
   const toggleCatalogue = () => {
-    setCatalogue(!isCatalogue)
+    setIsCatalogue(!isCatalogue)
   }
 
-  const book = Epub(url);
+  const book = Epub(ebookUrl, epubOptions);
   const initialFontSize = fontSize ? fontSize : '100%'
 
   const { bookContents, searchBookContents } = useBookContent(book)
@@ -81,8 +86,7 @@ function useEpubReader({ url, fontSize }: IReaderProps): EpubReaderState {
 
     setCurretChapter(firstChapter.href)
     setCurrentCfi(epubRendition.location?.start.cfi)
-
-    catalogue.current = toc
+    setCatalogue(toc)
     rendition.current = epubRendition
 
     epubRendition.themes.fontSize(initialFontSize);
@@ -98,10 +102,14 @@ function useEpubReader({ url, fontSize }: IReaderProps): EpubReaderState {
 
   useEffect(() => {
     init()
-  }, [url]);
+
+    return () => {
+      book.destroy()
+    }
+  }, [ebookUrl]);
 
   return {
-    url,
+    ebookUrl,
     book,
     catalogue,
     isCatalogue,
@@ -119,6 +127,9 @@ function useEpubReader({ url, fontSize }: IReaderProps): EpubReaderState {
     isBookmarkDrawer,
     isSnackbar,
     snackbarMessage,
+    isPanelBar,
+    setIsPanelBar,
+    setEbookUrl,
     toggleSearchDrawer,
     toggleCatalogue,
     setCurretChapter,

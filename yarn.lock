@@ -548,6 +548,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-file-reader-input@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.nlark.com/@types/react-file-reader-input/download/@types/react-file-reader-input-2.0.1.tgz#e2873e13ae09b4ff94f1cbfc1d70ec178960433b"
+  integrity sha1-4oc+E64JtP+U8cv8HXDsF4lgQzs=
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-is@^16.7.1 || ^17.0.0":
   version "17.0.2"
   resolved "https://registry.nlark.com/@types/react-is/download/@types/react-is-17.0.2.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40types%2Freact-is%2Fdownload%2F%40types%2Freact-is-17.0.2.tgz#abc4d910bff5b0bc6b3e1bec57575f6b63fd4e05"
@@ -1281,6 +1288,11 @@ react-dom@^17.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.2"
+
+react-file-reader-input@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.nlark.com/react-file-reader-input/download/react-file-reader-input-2.0.0.tgz#44d2a466731d2cc3f51dee9970f204585742243b"
+  integrity sha1-RNKkZnMdLMP1He6ZcPIEWFdCJDs=
 
 react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"

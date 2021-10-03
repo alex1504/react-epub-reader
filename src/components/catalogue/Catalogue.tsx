@@ -18,26 +18,26 @@ function Catalogue() {
   }
 
   return (
-    <Box className="catalogue-box" sx={{ width: 250 }}>
-      <IconButton className="catalogue-box__button" aria-label="ShowCatalogue" onClick={() => toggleCatalogue()}>
+    <Box className="catalogue-box">
+      {/* <IconButton className="catalogue-box__button" aria-label="ShowCatalogue" onClick={() => toggleCatalogue()}>
         <MenuIcon></MenuIcon>
-      </IconButton>
+      </IconButton> */}
       <Drawer
         anchor='left'
         open={isCatalogue}
         onClose={() => { toggleCatalogue() }}
       >
-        <List>
-
-          {catalogue.current?.map((item, index) => {
+        <List sx={{ width: 300 }}>
+          {catalogue?.map((item, index) => {
             return index === 0 ?
-              <ListSubheader sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }}
+              <ListSubheader key={index} sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }}
                 onClick={() => {
                   handleCatalogChange(item)
                 }}>{item.label}
-              </ListSubheader> : (
+              </ListSubheader> :
+              (
                 <div>
-                  <ListItem sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal', cursor: 'pointer' }} onClick={() => {
+                  <ListItem key={index} sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal', cursor: 'pointer' }} onClick={() => {
                     handleCatalogChange(item)
                   }}>{item.label}</ListItem> <Divider />
                 </div>

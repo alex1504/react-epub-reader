@@ -7,7 +7,8 @@ import Snackbar from "../snackbar"
 
 export interface IReaderProps {
   url: string,
-  fontSize?: string
+  fontSize?: string,
+  epubOptions?: Object
 }
 
 export const readerContext = React.createContext<EpubReaderState>(null)

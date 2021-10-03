@@ -10,7 +10,7 @@ export type BookmarkItem = {
 export type Bookmarks = Array<BookmarkItem>
 
 export interface addBookmarkFn {
-  (bookmark: Pick<BookmarkItem, Exclude<keyof BookmarkItem, 'time'>>): void
+  (bookmark: Omit<BookmarkItem, 'time'>): void
 }
 
 export interface removeBookmarkFn {
