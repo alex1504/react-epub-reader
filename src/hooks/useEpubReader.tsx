@@ -83,14 +83,16 @@ function useEpubReader({ url, fontSize, epubOptions }: IReaderProps): EpubReader
     const width = window.getComputedStyle(node).getPropertyValue('width')
     const epubRendition = book.renderTo(node, { width, height: '100%' });
     const firstChapter = toc[0]
+    const currentCfi = epubRendition.location?.start.cfi
 
     setCurretChapter(firstChapter.href)
-    setCurrentCfi(epubRendition.location?.start.cfi)
+    setCurrentCfi(currentCfi)
     setCatalogue(toc)
     rendition.current = epubRendition
 
     epubRendition.themes.fontSize(initialFontSize);
-    epubRendition.display(firstChapter.href);
+    epubRendition.display(currentCfi);
+
     epubRendition.on('locationChanged', ({ percentage, href }: ILocationChangeProps) => {
       setCurretChapter(href)
       setPercentage(percentage)

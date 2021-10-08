@@ -29,19 +29,13 @@ function Catalogue() {
       >
         <List sx={{ width: 300 }}>
           {catalogue?.map((item, index) => {
-            return index === 0 ?
-              <ListSubheader key={index} sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal' }}
-                onClick={() => {
+            return (
+              <div>
+                <ListItem key={index} sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal', cursor: 'pointer' }} onClick={() => {
                   handleCatalogChange(item)
-                }}>{item.label}
-              </ListSubheader> :
-              (
-                <div>
-                  <ListItem key={index} sx={{ fontWeight: item.href === currentChapter ? 'bold' : 'normal', cursor: 'pointer' }} onClick={() => {
-                    handleCatalogChange(item)
-                  }}>{item.label}</ListItem> <Divider />
-                </div>
-              )
+                }}>{item.label}</ListItem> <Divider />
+              </div>
+            )
           })}
         </List>
       </Drawer>

@@ -37,31 +37,33 @@ function Panel() {
     }
   }
 
-  const resize = () => {
+  const resize = (isFullHeight: boolean) => {
     const originWidth = rendition.current?.settings.width
     const appbarH = appbarRef.current?.clientHeight
     if (!originWidth || !appbarH) {
       return
     }
 
+    const height = isFullHeight ? window.innerHeight : window.innerHeight - appbarH
+
     if (typeof originWidth === 'number') {
-      rendition.current?.resize(originWidth, window.innerHeight - appbarH)
+      rendition.current?.resize(originWidth, height)
     } else {
       const nOriginWidth = originWidth.match(/\d+/)
       if (nOriginWidth) {
-        rendition.current?.resize(Number(nOriginWidth[0]), window.innerHeight - appbarH)
+        rendition.current?.resize(Number(nOriginWidth[0]), height)
       }
     }
   }
 
   const hidePanelBar = () => {
     setIsPanelBar(false)
-    resize()
+    resize(true)
   }
 
   const ShowPanelBar = () => {
     setIsPanelBar(true)
-    resize()
+    resize(false)
   }
 
   const onAddBookmark = () => {

@@ -1,11 +1,11 @@
 import Reader from "./components/reader/Reader"
 
 function App() {
-  const url = "/alice.epub"
+  const demoUrl = "Flipped.epub"
 
   return (
     <div className="App">
-      <Reader url={url}></Reader>
+      <Reader url={demoUrl}></Reader>
     </div>
   )
 }
