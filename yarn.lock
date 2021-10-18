@@ -531,10 +531,10 @@
   dependencies:
     localforage "*"
 
-"@types/node@^16.10.2":
-  version "16.10.2"
-  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.10.2.tgz#5764ca9aa94470adb4e1185fe2e9f19458992b2e"
-  integrity sha1-V2TKmqlEcK204Rhf4unxlFiZKy4=
+"@types/node@^16.11.1":
+  version "16.11.1"
+  resolved "https://registry.npmmirror.com/@types/node/download/@types/node-16.11.1.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2F%40types%2Fnode%2Fdownload%2F%40types%2Fnode-16.11.1.tgz#2e50a649a50fc403433a14f829eface1a3443e97"
+  integrity sha1-LlCmSaUPxANDOhT4Ke+s4aNEPpc=
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"

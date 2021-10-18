@@ -1,6 +1,6 @@
 {
   "name": "react-epub-reader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@types/html-to-text": "^8.0.1",
+    "@types/node": "^16.11.1",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-file-reader-input": "^2.0.1",
