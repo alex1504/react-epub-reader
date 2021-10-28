@@ -5,6 +5,8 @@ An ePub-reader for react powered by EpubJS
 [See Demo](http://react-epub-reader.huzerui.com)
 
 # Stack
+[![nodejs](https://img.shields.io/badge/node-%3E=12.0.0-blue.svg?longCache=true)](https://nodejs.org/en/)
+[![vite](https://img.shields.io/badge/vite-%3E=2.5.4-blue.svg?longCache=true)](https://vitejs.dev/)
 [![react](https://img.shields.io/badge/react-^17.0.0-blue.svg?longCache=true)](https://facebook.github.io/react/)
 [![epubjs](https://img.shields.io/badge/epubjs-^0.3.88-blue.svg?longCache=true)](https://github.com/futurepress/epub.js)
 [![typescript](https://img.shields.io/badge/typescript-^4.3.2-blue.svg?longCache=true)](https://github.com/microsoft/TypeScript)
