@@ -4,7 +4,7 @@ An ePub-reader for react powered by EpubJS
 
 ![screenshot](https://pic.rmb.bdstatic.com/bjh/5e27dac900d64942728e8e2fec6de9bb.png)
 
-[See Demo](http://react-epub-reader.huzerui.com)
+[See Online Demo](http://react-epub-reader.huzerui.com)
 
 # Stack
 [![nodejs](https://img.shields.io/badge/node-%3E=12.0.0-blue.svg?longCache=true)](https://nodejs.org/en/)
