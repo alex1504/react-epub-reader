@@ -2,7 +2,7 @@
 
 An ePub-reader for react powered by EpubJS
 
-![screenshot](https://pic.rmb.bdstatic.com/bjh/5e27dac900d64942728e8e2fec6de9bb.png)
+![screenshot](https://cdn.jsdelivr.net/gh/sandy1504/media@master/20220517/5e27dac900d64942728e8e2fec6de9bb.5o9wcyole5s0.webp)
 
 [See Online Demo](http://react-epub-reader.huzerui.com)
 
